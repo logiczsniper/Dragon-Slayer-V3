@@ -1,3 +1,8 @@
+"""
+Logan Czernel
+Project used to learn Python.
+"""
+
 #Imports
 import pygame as pg, sys
 import time
@@ -11,9 +16,9 @@ pg.init()
 tile_size = 80
 MAPWIDTH = 14
 MAPHEIGHT = 11
-smallText = pg.font.Font('C:/Users/lczer/Desktop/Dragon Slayer V3/PressStart2P.ttf', 17)
-largeText = pg.font.Font('C:/Users/lczer/Desktop/Dragon Slayer V3/PressStart2P.ttf', 55)
-mediumText = pg.font.Font('C:/Users/lczer/Desktop/Dragon Slayer V3/PressStart2P.ttf', 36)
+smallText = pg.font.Font('PressStart2P.ttf', 17)
+largeText = pg.font.Font('PressStart2P.ttf', 55)
+mediumText = pg.font.Font('PressStart2P.ttf', 36)
 GAMEDISPLAY = pg.display.set_mode((MAPWIDTH * tile_size, MAPHEIGHT * tile_size))
 event = pg.event.poll()
 clock = pg.time.Clock()
@@ -67,7 +72,6 @@ healthred = (175, 14, 14)
 truegray = (127, 132, 140)
 cream = (35, 36, 45)
 
-
 #Image Loader
 def load_image(name):
     image = pg.image.load('Images/' + name + '.png').convert_alpha()
@@ -77,7 +81,6 @@ def load_image(name):
 healthstatus = load_image('healthbar')
 healthcontainer = load_image('healthcontainer')
 healthboximg = load_image('healthupgrade')
-
 dragonstatus = load_image('dragonhealthbar')
 dragoncontainer = load_image('dragonhealthcontainer')
 
@@ -120,7 +123,6 @@ sOne = load_image('Clouds/sOne')
 sTwo = load_image('Clouds/sTwo')
 sThree = load_image('Clouds/sThree')
 sFour = load_image('Clouds/sFour')
-
 sclouds = [sOne, sTwo, sThree, sFour]
 lclouds = [lOne, lTwo, lThree, lFour]
 dclouds = [dOne, dTwo, dThree, dFour]
@@ -670,7 +672,7 @@ def quitgame():
     quit()
 
 def message_display(text, fontsize, timer, colour):
-    largeText = pg.font.Font('C:/Users/lczer/Desktop/Dragon Slayer V3/PressStart2P.ttf', fontsize)
+    largeText = pg.font.Font('PressStart2P.ttf', fontsize)
     TextSurf, TextRect = text_objects(text, largeText, colour)
     TextRect.center = ((display_width / 2), 820)
     while timer > 0:
@@ -823,16 +825,12 @@ class Bullet(pg.sprite.Sprite):
     def update(self):
         if self.direction == 'left':
             self.rect.x -= 8
-
         if self.direction == 'right':
             self.rect.x += 8
-
         if self.direction == 'up':
             self.rect.y -= 8
-
         if self.direction == 'down':
             self.rect.y += 8
-        
         if pg.time.get_ticks() - self.spawn_time > 1150 or self.rect.y < 0 or self.rect.y > display_height or self.rect.x < 0 or self.rect.x > display_width:
             self.kill()
 
@@ -850,16 +848,12 @@ class Fireball(pg.sprite.Sprite):
     def update(self):
         if self.direction == 'left':
             self.rect.x -= 8
-
         if self.direction == 'right':
             self.rect.x += 8
-
         if self.direction == 'up':
             self.rect.y -= 8
-
         if self.direction == 'down':
             self.rect.y += 8
-        
         if self.rect.y < 0 or self.rect.y > display_height or self.rect.x < 0 or self.rect.x > display_width:
             self.kill()
 
@@ -875,10 +869,9 @@ class Wall(pg.sprite.Sprite):
         self.rect.width = h
 
 class SceneBase:
-
     def __init__(self):
         self.next = self
-
+        
     def Render(self, screen):
         pass
     
@@ -1000,7 +993,6 @@ class FriendlySpriteTwo(HappySprite):
         self.completed = False
 
     def update(self, direction, playerrect):
-
         if not self.rect.colliderect(playerrect):
             if direction == 'up':
                 self.clip(self.up_states)
@@ -1008,11 +1000,9 @@ class FriendlySpriteTwo(HappySprite):
             if direction == 'down':
                 self.clip(self.down_states)
                 self.rect.y += 1
-            
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
     def handle_event(self, direction, playersrect, events, playerquest, firespeed):
-        
         self.update('down', playersrect)
         for wall in walls:
             if self.rect.colliderect(wall.rect):    
@@ -1068,7 +1058,6 @@ class FriendlySpriteThree(HappySprite):
         self.direction = 'left'
 
     def update(self, direction, playerrect):
-
         if not self.rect.colliderect(playerrect):
             if direction == 'right':
                 self.clip(self.right_states)
@@ -1076,11 +1065,9 @@ class FriendlySpriteThree(HappySprite):
             if direction == 'left':
                 self.clip(self.left_states)
                 self.rect.x -= 2
-            
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
     def handle_event(self, direction, playersrect, events, playerquest):
-        
         for wall in walls:
             if self.rect.colliderect(wall.rect):    
                 if direction == 'right':
@@ -1150,9 +1137,7 @@ class Hero(HappySprite):
                 amountofheal -= 1
             self.num_of_potions -= 1
 
-    def update(self, direction):
-
-        
+    def update(self, direction):  
         if self.questlvl > 3:
             if direction == 'left':
                 self.clip(self.left_states)
@@ -1179,7 +1164,6 @@ class Hero(HappySprite):
                 self.clip(self.down_states[1])
             if direction == 'stand_down':
                 self.clip(self.up_states[1])
-            
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
     def handle_event(self, event, direction):
@@ -1334,7 +1318,6 @@ class EnemyMob(HappySprite):
             self.kill()
 
     def update(self, direction):
-
         if direction == 'left':
             self.clip(self.left_states)
             self.rect.x -= self.movespeed
@@ -1835,7 +1818,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.collisionrect.y = 845
             player.rect.x = player.collisionrect.x
             player.rect.y = player.collisionrect.y - 35
-            print('switching to north river')
             player.setLocation('northriver')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[1])
@@ -1849,7 +1831,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.rect.y = 0
             player.rect.x = player.collisionrect.x
             player.collisionrect.y = player.rect.y + 35
-            print('switching to town')
             player.setLocation('town')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[0])
@@ -1860,19 +1841,16 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1
             player.rect.x = player.collisionrect.x
-            print('switching to east plains')
             player.setLocation('eastplains')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[2])
             pg.mixer.music.play(-1)
                                               
-
         if player.rect.left < 0 and player.get_location() == 'eastplains':
             active_scene.SwitchToScene(GameSceneOne())
             clouds.empty()
             player.collisionrect.x = 1072
             player.rect.x = player.collisionrect.x
-            print('switching to town')
             player.setLocation('town')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[0])
@@ -1883,7 +1861,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1072
             player.rect.x = player.collisionrect.x
-            print('switching to dragonone')
             player.setLocation('dragonone')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[3])
@@ -1901,7 +1878,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
                 player.rect.y = player.collisionrect.y - 35
                 
             player.rect.x = player.collisionrect.x
-            print('switching to town')
             player.setLocation('town')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[0])
@@ -1914,7 +1890,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.rect.y = 0
             player.rect.x = player.collisionrect.x
             player.collisionrect.y = player.rect.y + 35
-            print('switching to desert')
             player.setLocation('desert')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[2])
@@ -1927,7 +1902,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.collisionrect.y = 845
             player.rect.x = player.collisionrect.x
             player.rect.y = player.collisionrect.y - 35
-            print('switching to town')
             player.setLocation('town')
             pg.mixer.music.stop()
             pg.mixer.music.load(songs[0])
@@ -1938,7 +1912,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1072
             player.rect.x = player.collisionrect.x
-            print('switching to dragon entrance')
             player.setLocation('dragonentrance')
 
         if player.collisionrect.right > 1120 and player.get_location() == 'dragonentrance':
@@ -1946,7 +1919,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1
             player.rect.x = player.collisionrect.x
-            print('switching to dragonone')
             player.setLocation('dragonone')
 
         if player.collisionrect.left < 0 and player.get_location() == 'dragonentrance':
@@ -1954,7 +1926,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1072
             player.rect.x = player.collisionrect.x
-            print('switching to dragon cave')
             player.setLocation('dragoncave')
 
         if player.rect.left < 0 and player.get_location() == 'farplains':
@@ -1962,7 +1933,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1072
             player.rect.x = player.collisionrect.x
-            print('switching to east plains')
             player.setLocation('eastplains')
 
         if player.collisionrect.right > 1120 and player.get_location() == 'eastplains':
@@ -1970,7 +1940,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1
             player.rect.x = player.collisionrect.x
-            print('switching to far plains')
             player.setLocation('farplains')
 
         if player.rect.left < 0 and player.get_location() == 'desert':
@@ -1978,7 +1947,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1072
             player.rect.x = player.collisionrect.x
-            print('switching to west desert')
             player.setLocation('westdesert')
 
         if player.collisionrect.right > 1120 and player.get_location() == 'westdesert':
@@ -1986,7 +1954,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1
             player.rect.x = player.collisionrect.x
-            print('switching to desert')
             player.setLocation('desert')
 
         if player.collisionrect.right > 1120 and player.get_location() == 'desert':
@@ -1994,7 +1961,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1
             player.rect.x = player.collisionrect.x
-            print('switching to east desert')
             player.setLocation('eastdesert')
 
         if player.rect.left < 0 and player.get_location() == 'eastdesert':
@@ -2002,7 +1968,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.x = 1072
             player.rect.x = player.collisionrect.x
-            print('switching to desert')
             player.setLocation('desert')
 
         if player.rect.bottom > display_height and player.get_location() == 'desert':
@@ -2010,7 +1975,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.rect.y = 0
             player.collisionrect.y = player.rect.y + 35
-            print('switching to south desert')
             player.setLocation('southdesert')
 
         if player.collisionrect.top - 35 < 0 and player.get_location() == 'southdesert':
@@ -2018,7 +1982,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             clouds.empty()
             player.collisionrect.y = 845
             player.rect.y = player.collisionrect.y - 35
-            print('switching to desert')
             player.setLocation('desert')
 
         #Indoor / Outdoor Collision Detection
@@ -2034,7 +1997,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
                     player.rect.x = player.collisionrect.x
                     player.collisionrect.y = 550
                     player.rect.y = player.collisionrect.y - 35
-                    print('switching to house one')
                     player.setLocation('houseone')
                     message_display('Walk to the item you would like to purchase.', 16, 600, black)
             if player.collisionrect.colliderect(pg.Rect(240, 480, 80, 160)) == True and player.get_location() == 'town':
@@ -2045,7 +2007,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
                 player.rect.x = player.collisionrect.x
                 player.collisionrect.y = 625
                 player.rect.y = player.collisionrect.y - 35
-                print('switching to house two')
                 player.setLocation('housetwo')
             if player.collisionrect.colliderect(pg.Rect(880, 560, 80, 160)) == True and player.get_location() == 'town':
                 active_scene.SwitchToScene(GameSceneFifteen())
@@ -2055,8 +2016,8 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
                 player.rect.x = player.collisionrect.x
                 player.collisionrect.y = 700
                 player.rect.y = player.collisionrect.y - 35
-                print('switching to house three')
                 player.setLocation('housethree')
+                
         if player.get_location() == 'houseone' and player.collisionrect.y > 570:
             active_scene.SwitchToScene(GameSceneOne())
             clouds.empty()
@@ -2064,7 +2025,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.rect.x = player.collisionrect.x
             player.collisionrect.y = 407
             player.rect.y = player.collisionrect.y - 35
-            print('switching to town')
             player.setLocation('town')
         if player.get_location() == 'housetwo' and player.collisionrect.y > 645:
             active_scene.SwitchToScene(GameSceneOne())
@@ -2073,7 +2033,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.rect.x = player.collisionrect.x
             player.collisionrect.y = 560
             player.rect.y = player.collisionrect.y - 35
-            print('switching to town')
             player.setLocation('town')
         if player.get_location() == 'housethree' and player.collisionrect.y > 725:
             active_scene.SwitchToScene(GameSceneOne())
@@ -2082,7 +2041,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.rect.x = player.collisionrect.x
             player.collisionrect.y = 750
             player.rect.y = player.collisionrect.y - 35
-            print('switching to town')
             player.setLocation('town')
             
         #Desert Lost Warning(s)
@@ -2152,7 +2110,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.collisionrect.y = 500
             player.rect.x = player.collisionrect.x
             player.rect.y = player.collisionrect.y - 35
-            print('switching to heart cave')
             player.setLocation('heartcave')
 
         if player.collisionrect.right > 1090 and player.get_location() == 'heartcave':
@@ -2162,7 +2119,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             player.collisionrect.y = 500
             player.rect.x = player.collisionrect.x
             player.rect.y = player.collisionrect.y - 35
-            print('switching to north river')
             player.setLocation('northriver')
 
         #Class in-game-loop operations
@@ -2181,16 +2137,9 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
             GAMEDISPLAY.blit(standerbrother, (495, 340))
         
         #Intro
-
-        """
-        REMOVE FOLLOWING LINE: IT TAKES OUT THE INTRO FOR DELEVOPING PURPOSES
-        """
-        #player.questlvl = 9
-        
         starterdragon.draw(GAMEDISPLAY)
         
         if player.questlvl == 0:
-            
             dragontwo.update('left')
             dragontwo.movement()
             if dragontwo.rect.x < 550 and dragontwo.rect.x > 540:
@@ -2222,7 +2171,6 @@ def game_loop(startx, starty, startone, starttwo, starting_scene):
         if player.questlvl == 5:
             if player.collisionrect.left > 925 and player.collisionrect.top > 650 and player.collisionrect.bottom < 740:
                 message_display('You: My son! The dragon must have done this!', 17, 800, black)
-                
                 for smo in smoke:
                     intro_images()
                     GAMEDISPLAY.blit(son, (970, 640))
